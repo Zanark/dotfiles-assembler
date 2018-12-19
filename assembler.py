@@ -4,6 +4,11 @@ def if_folders_exist():
     #The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
     #If it cannot find them it creates an empty folder.
 
+    reqd_folders = [".themes" , ".icons" , ".i3" , ".config"]
+    reqd_files = [".bashrc" , ".conkyrc"]
+    folders = os.popen("find -maxdepth 1").read().split("\n")
+
+
 def copy_folders_to_dotfile_folder():
     #This function copies all the files in the $HOME directory that must be copied to the dotfile dir
     #The dotfile dir is the dir which gets pushed to GitHub
