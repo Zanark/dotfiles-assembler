@@ -20,11 +20,24 @@ def if_folders_exist():
 
     #print(exist_folders)
     #print(exist_files)
+    
+    copy_folders_to_dotfile_folder(exist_folders , exist_files)
 
 
 def copy_folders_to_dotfile_folder():
     #This function copies all the files in the $HOME directory that must be copied to the dotfile dir
     #The dotfile dir is the dir which gets pushed to GitHub
+    
+    dest  = "./dotfiles/"
+    
+    if not (os.path.isdir(dest)):
+        os.system("mkdir dotfiles")
+
+    for F in folders:
+        shutil.copytree(F , dest + F )
+
+    for f in files:
+        shutil.copyfile(f , dest + f )    
 
 def copy_wallpapers():
     #This function copies the wallpapers of the user
