@@ -1,10 +1,11 @@
 import os
+import shutil
 
 def if_folders_exist():
     #The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
     #If it cannot find them it creates an empty folder.
     
-    reqd_folders = [".themes" , ".icons" , ".i3" , ".config" , ".mozilla"]
+    reqd_folders = [".themes" , ".icons" , ".i3" , ".config" , ".mozilla" , ".fonts"]
     reqd_files = [".bashrc" , ".conkyrc"]
     exist_folders = []
     exist_files = []
@@ -24,9 +25,10 @@ def if_folders_exist():
     copy_folders_to_dotfile_folder(exist_folders , exist_files)
 
 
-def copy_folders_to_dotfile_folder():
+def copy_folders_to_dotfile_folder(folders , files):
     #This function copies all the files in the $HOME directory that must be copied to the dotfile dir
     #The dotfile dir is the dir which gets pushed to GitHub
+    #Asks the user where to copy the files
     
     dest  = "./dotfiles/"
     
@@ -42,6 +44,7 @@ def copy_folders_to_dotfile_folder():
 def copy_wallpapers():
     #This function copies the wallpapers of the user
     #The user will be asked if he has a diffrent folder containg the wallapers
+    pass
 
 def push_to_GitHub():
     #This function will push the contents of the directory to GitHub
@@ -49,3 +52,6 @@ def push_to_GitHub():
     #The user can then merge it later
     #The user can also add a gitignore later
     #Will add the functionality of creating a repo from the command line itself later
+    pass
+
+if_folders_exist()
