@@ -49,6 +49,11 @@ def copy_wallpapers():
 
 #-----------------------------------------  GitHub and Vrsion Contolling  ---------------------------------------------
 
+def execute(com):
+    proc=subprocess.Popen(com,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    stdout_value = proc.communicate()[0]
+    print(stdout_value.decode("utf-8"))
+
 def local_database(*argv):
     #   -   Records provided data locally
     
@@ -65,6 +70,7 @@ def local_database(*argv):
 					data = argv
 				file.write(data)				
 	else:
+        
 		if(not len(argv)):
 			with open(dasspath, 'rb') as file:
 				data = file.read()				
@@ -152,9 +158,11 @@ def push_to_GitHub():
 		if response.status_code == 201:
 			repo_url = response.json()['clone_url']
             print("Dotfiles pushed to GitHub @ " + repo_url)
-			command="git remote add origin "+repo_url
+			command = "git remote add origin "+repo_url
 			execute(command)
-			print("REmote added successfully")
+            command = "git checkout -b mark1"
+            execute(command)
+			print("Remote added successfully")
 
 		else:
             print(response.json())
@@ -162,4 +170,6 @@ def push_to_GitHub():
 		print("User not found, please add a User and run the program again")
         add_user()
 
-if_folders_exist()
+
+if __name__ == '__main__':
+    if_folders_exist()
