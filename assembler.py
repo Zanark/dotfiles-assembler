@@ -1,10 +1,9 @@
 import os
 import shutil
-from . import nlt
 
 def if_folders_exist():
-    #The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
-    #If it cannot find them it creates an empty folder.
+    #   -   The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
+    #   -   If it cannot find them it creates an empty folder.
     
     reqd_folders = [".themes" , ".icons" , ".i3" , ".config" , ".mozilla" , ".fonts"]
     reqd_files = [".bashrc" , ".conkyrc"]
@@ -27,9 +26,9 @@ def if_folders_exist():
 
 
 def copy_folders_to_dotfile_folder(folders , files):
-    #This function copies all the files in the $HOME directory that must be copied to the dotfile dir
-    #The dotfile dir is the dir which gets pushed to GitHub
-    #Asks the user where to copy the files
+    #   -   This function copies all the files in the $HOME directory that must be copied to the dotfile dir
+    #   -   The dotfile dir is the dir which gets pushed to GitHub
+    #   -   Asks the user where to copy the files
     
     dest  = "./dotfiles/"
     
@@ -43,28 +42,29 @@ def copy_folders_to_dotfile_folder(folders , files):
         shutil.copyfile(f , dest + f )    
 
 def copy_wallpapers():
-    #This function copies the wallpapers of the user
-    #The user will be asked if he has a diffrent folder containg the wallapers
+    #   -   This function copies the wallpapers of the user
+    #   -   The user will be asked if he has a diffrent folder containg the wallapers
     pass
+
 #-----------------------------------------  GitHub and Vrsion Contolling  ---------------------------------------------
 
 def add_user():
-    #Adds a user to the local file dattabase
+    #   -   Adds a user to the local file dattabase
     pass
 
 def show_users():
-    #Displays the user data recorded in thelocal database
+    #   -   Displays the user data recorded in thelocal database
     pass
 
 def push_to_GitHub():
-    #This function will push the contents of the directory to GitHub
+    #   -   This function will push the contents of the directory to GitHub
     
-    #First a listof th eusers that have been registred wil be shown
-    #The user thn will be askd to coose the username that belongs to him
-    #If his username isnt present then he can add his username
-    #The user will be asked to enter the name of the repo and the files will be uploaded to that repo in a new branch
-    #The user can then merge it later
-    #The user can also add a gitignore later
+    #   --  First a listof th eusers that have been registred wil be shown
+    #   --  The user thn will be askd to coose the username that belongs to him
+    #   --  If his username isnt present then he can add his username
+    #   --  The user will be asked to enter the name of the repo and the files will be uploaded to that repo in a new branch
+    #   --  The user can then merge it later
+    #   --  The user can also add a gitignore later
 
     print("Choose your username")
     #print the users in the database(can use firebase)
