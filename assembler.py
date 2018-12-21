@@ -1,5 +1,6 @@
 import os
 import shutil
+from . import nlt
 
 def if_folders_exist():
     #The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
