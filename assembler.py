@@ -46,13 +46,32 @@ def copy_wallpapers():
     #This function copies the wallpapers of the user
     #The user will be asked if he has a diffrent folder containg the wallapers
     pass
+#-----------------------------------------  GitHub and Vrsion Contolling  ---------------------------------------------
+
+def add_user():
+    #Adds a user to the local file dattabase
+    pass
+
+def show_users():
+    #Displays the user data recorded in thelocal database
+    pass
 
 def push_to_GitHub():
     #This function will push the contents of the directory to GitHub
+    
+    #First a listof th eusers that have been registred wil be shown
+    #The user thn will be askd to coose the username that belongs to him
+    #If his username isnt present then he can add his username
     #The user will be asked to enter the name of the repo and the files will be uploaded to that repo in a new branch
     #The user can then merge it later
     #The user can also add a gitignore later
-    #Will add the functionality of creating a repo from the command line itself later
-    pass
+
+    print("Choose your username")
+    #print the users in the database(can use firebase)
+
+    choice = input("\n\n If your username is present, enter the corresponding no. Else enter 0.")
+
+    username = users[choice]
+
 
 if_folders_exist()
