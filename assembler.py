@@ -37,10 +37,14 @@ def copy_folders_to_dotfile_folder(folders , files):
         os.system("mkdir dotfiles")
 
     for F in folders:
+        if os.path.exists(dest+F):
+            shutil.rmtree(dest+F)
         shutil.copytree(F , dest + F )
 
     for f in files:
-        shutil.copyfile(f , dest + f )    
+        shutil.copy(f , dest + f )
+
+    push_to_GitHub()    
 
 def copy_wallpapers():
     #   -   This function copies the wallpapers of the user
@@ -60,61 +64,61 @@ def local_database(*argv):
     nixUser = getpass.getuser()
 
     path = os.path.join("/" , "home" , nixUser)
-    dassPath = os.path.join(path , ".dotasss")
+    #dasspath = os.path.join(path , ".dotasss")
+    dasspath = os.path.join(os.getcwd() , ".dotasss")
 
-    if not os.path.isfile(dassPath):
-        with open(dasspath, 'wb')as file:
-				if(not len(argv)):
-					data = {}
-				else:
-					data = argv
-				file.write(data)				
-	else:
-        
-		if(not len(argv)):
-			with open(dasspath, 'rb') as file:
-				data = file.read()				
-		else:
-			with open(dasspath,'wb') as file:
-				data = argv
-				file.write(data)
+    print(dasspath)
+
+    if not os.path.isfile(dasspath):
+        with open(dasspath, 'w')as file:
+            if(not len(argv)):
+                data = {}
+            else:
+                data = argv
+            file.write(str(data))
+    else:
+        if(not len(argv)):
+            with open(dasspath, 'r') as file:
+                data = file.read()
+        else:
+            with open(dasspath,'w') as file:
+                data = argv
+                file.write(str(data))
 
     return data
 
 def add_user():
     #   -   Adds a user to the local file dattabase
 
-    UserName = input("Enter your Username")
-    Password = getpass.getpass("Enter your Password")
+    data = local_database()
 
-    if user_name in data.keys():
-        print("User already exists")
-    else:
-        payload='{"scopes": ["admin:public_key", "admin:repo_hook", "delete_repo", "repo", "user"], "note": "Dotfiles Assembler"}'
-        response=requests.post('https://api.github.com/authorizations',data=payload,auth=(UserName, Password))
+    UserName = input("Enter your Username:\t")
+    Password = getpass.getpass("Enter your Password:\t")
 
-        if response.status_code==201:
-            data[user_name]=[response.json()['token'],response.json()['url']]
-        
-        file_handler(data)    
 
-        print("USER ADDED!!")
+    payload='{"scopes": ["admin:public_key", "admin:repo_hook", "delete_repo", "repo", "user"], "note": "Dotfiles Assembler"}'
+    response=requests.post('https://api.github.com/authorizations',data=payload,auth=(UserName, Password))
+
+    if response.status_code==201:
+        data[Username]=[response.json()['token'],response.json()['url']]
+    
+    local_database(data)    
+
+    print("USER ADDED!!")
 
 
 def show_users():
     #   -   Displays the user data recorded in thelocal database
 
-    data = local_database()
-    
+    data = local_database()    
     users=[x for x in data]
-
-		if len(users):
-            for i in users:
-                print(i)
-        else:
-            choice = input("No users in the database....Want to add a user? (y/n)")
-            if choice == 'y':
-                add_user()
+    if len(users):
+        for i in users:
+            print(i)
+    else:
+        choice = input("No users in the database....Want to add a user? (y/n)")
+        if choice == 'y':
+            add_user()
             
 
 def push_to_GitHub():
@@ -138,36 +142,36 @@ def push_to_GitHub():
     username = input("\n Enter your Username:\t")
 
     if username in data.keys():
-		proname = "dotfiles"
-		desc = input('A short description of the repository.')
-
+        proname = "dotfiles"
+        desc = input('A short description of the repository.')
+        
         isPrivate = input("Is the repository private? [y/n]")
         if isPrivate == 'y':
             privy = True
         else:
             privy = False
-
-		headers={"Authorization": "token "+data[username][0]}
+            
+        headers={"Authorization": "token "+data[username][0]}
         
 		# proname = proname.strip().replace(' ', '-') #sanitization
 		
-		payload={"name": proname,"description": desc,"private": privy,"has_issues": True,"has_projects": True,"has_wiki": True}
+        payload={"name": proname,"description": desc,"private": privy,"has_issues": True,"has_projects": True,"has_wiki": True}
 		
-		response=requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(payload))
+        response=requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(payload))
 		
-		if response.status_code == 201:
-			repo_url = response.json()['clone_url']
+        if response.status_code == 201:
+            repo_url = response.json()['clone_url']
             print("Dotfiles pushed to GitHub @ " + repo_url)
-			command = "git remote add origin "+repo_url
-			execute(command)
+            command = "git remote add origin "+repo_url
+            execute(command)
             command = "git checkout -b mark1"
             execute(command)
-			print("Remote added successfully")
-
-		else:
+            print("Remote added successfully")
+            
+        else:
             print(response.json())
-	else:
-		print("User not found, please add a User and run the program again")
+    else:
+        print("User not found, please add a User and run the program again")
         add_user()
 
 
