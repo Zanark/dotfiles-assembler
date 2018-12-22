@@ -2,6 +2,10 @@ import os
 import shutil
 import getpass
 import requests
+import json
+import subprocess
+import sys
+
 
 def if_folders_exist():
     #   -   The function checks if the .themes, .icons ..etc folders are present in the $HOME directory or not
@@ -67,7 +71,7 @@ def local_database(*argv):
     #dasspath = os.path.join(path , ".dotasss")
     dasspath = os.path.join(os.getcwd() , ".dotasss")
 
-    print(dasspath)
+    #print(dasspath)
 
     if not os.path.isfile(dasspath):
         with open(dasspath, 'w')as file:
@@ -75,15 +79,18 @@ def local_database(*argv):
                 data = {}
             else:
                 data = argv
-            file.write(str(data))
+            #file.write(data)
+            json.dump(data, file)
     else:
         if(not len(argv)):
-            with open(dasspath, 'r') as file:
-                data = file.read()
+            with open(dasspath) as file:
+                data = json.load(file)
         else:
             with open(dasspath,'w') as file:
                 data = argv
-                file.write(str(data))
+                #file.write(data)
+                json.dump(data, file)
+
 
     return data
 
@@ -92,15 +99,17 @@ def add_user():
 
     data = local_database()
 
-    UserName = input("Enter your Username:\t")
+    Username = input("Enter your Username:\t")
     Password = getpass.getpass("Enter your Password:\t")
 
 
     payload='{"scopes": ["admin:public_key", "admin:repo_hook", "delete_repo", "repo", "user"], "note": "Dotfiles Assembler"}'
-    response=requests.post('https://api.github.com/authorizations',data=payload,auth=(UserName, Password))
+    response=requests.post('https://api.github.com/authorizations',data=payload,auth=(Username, Password))
 
     if response.status_code==201:
         data[Username]=[response.json()['token'],response.json()['url']]
+
+    print(response.json())
     
     local_database(data)    
 
@@ -131,6 +140,9 @@ def push_to_GitHub():
     #   --  The user can then merge it later
     #   --  The user can also add a gitignore later
 
+    data = local_database()
+    print(data[0])
+    
     print("The regitred users are:")
     show_users()
 
@@ -141,7 +153,7 @@ def push_to_GitHub():
     
     username = input("\n Enter your Username:\t")
 
-    if username in data.keys():
+    if username in data[0].keys():
         proname = "dotfiles"
         desc = input('A short description of the repository.')
         
@@ -151,7 +163,7 @@ def push_to_GitHub():
         else:
             privy = False
             
-        headers={"Authorization": "token "+data[username][0]}
+        headers={"Authorization": "token "+data[0][username][0]}
         
 		# proname = proname.strip().replace(' ', '-') #sanitization
 		
