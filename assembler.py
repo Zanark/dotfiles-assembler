@@ -182,11 +182,16 @@ def push_to_GitHub():
             execute(command)
             command = "git remote add origin "+repo_url
             execute(command)
-            command = "git checkout -b mark2"
+            command = "git checkout -b mark1"
             execute(command)
-            # command = "git push origin mark2"
-            # execute(command)
-            print("Remote added successfully")
+            command = "git add . " 
+            execute(command)
+            commit_msg = input("\nEnter a commit message\n\t")
+            command = "git commit -m \" "+commit_msg+" \"" 
+            execute(command)
+            command = "git push origin mark1"
+            execute(command)
+            print("Remote added and Data pushed to remote successfully")
             
         else:
             result = json.loads(response.text)
