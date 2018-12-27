@@ -153,6 +153,8 @@ def push_to_GitHub():
     
     username = input("\n Enter your Username:\t")
 
+    data = local_database()
+
     if username in data[0].keys():
         proname = "dotfiles"
         desc = input('A short description of the repository. \t')
