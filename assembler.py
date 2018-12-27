@@ -43,11 +43,14 @@ def copy_folders_to_dotfile_folder(folders , files):
     for F in folders:
         if os.path.exists(dest+F):
             shutil.rmtree(dest+F)
+        print("Copying %s...." % str(F)  )
         shutil.copytree(F , dest + F )
 
     for f in files:
+        print("Copying %s...." % str(f)  )
         shutil.copy(f , dest + f )
 
+    print("\n\t\tFiles have been copied!!\n\n")
     push_to_GitHub()    
 
 def copy_wallpapers():
