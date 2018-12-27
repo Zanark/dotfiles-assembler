@@ -125,7 +125,7 @@ def show_users():
         for i in users:
             print(i)
     else:
-        choice = input("No users in the database....Want to add a user? (y/n)")
+        choice = input("No users in the database....Want to add a user? (y/n) \t")
         if choice == 'y':
             add_user()
             
@@ -141,12 +141,12 @@ def push_to_GitHub():
     #   --  The user can also add a gitignore later
 
     data = local_database()
-    print(data[0])
+    #print(data[0])
     
     print("The regitred users are:")
     show_users()
 
-    ch = input("Do you want to add a new user?? [y/n]")
+    ch = input("Do you want to add a new user?? [y/n] \t")
     
     if ch == 'y':
         add_user()
@@ -155,9 +155,9 @@ def push_to_GitHub():
 
     if username in data[0].keys():
         proname = "dotfiles"
-        desc = input('A short description of the repository.')
+        desc = input('A short description of the repository. \t')
         
-        isPrivate = input("Is the repository private? [y/n]")
+        isPrivate = input("Is the repository private? [y/n] \t")
         if isPrivate == 'y':
             privy = True
         else:
@@ -173,11 +173,17 @@ def push_to_GitHub():
 		
         if response.status_code == 201:
             repo_url = response.json()['clone_url']
-            print("Dotfiles pushed to GitHub @ " + repo_url)
+            print("Repo created on GitHub @ " + repo_url)
+            command = "cd dotfiles"
+            execute(command)
+            command = "git init"
+            execute(command)
             command = "git remote add origin "+repo_url
             execute(command)
-            command = "git checkout -b mark1"
+            command = "git checkout -b mark2"
             execute(command)
+            # command = "git push origin mark2"
+            # execute(command)
             print("Remote added successfully")
             
         else:
