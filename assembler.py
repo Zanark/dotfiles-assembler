@@ -176,8 +176,8 @@ def push_to_GitHub():
         if response.status_code == 201:
             repo_url = response.json()['clone_url']
             print("Repo created on GitHub @ " + repo_url)
-            command = "cd dotfiles"
-            execute(command)
+            wd = os.getcwd()
+            os.chdir(wd + "/dotfiles")
             command = "git init"
             execute(command)
             command = "git remote add origin "+repo_url
@@ -196,8 +196,8 @@ def push_to_GitHub():
                 
                 repo_url = "https://github.com/%s/dotfiles.git" % username
 
-                command = "cd dotfiles"
-                execute(command)
+                wd = os.getcwd()
+                os.chdir(wd + "/dotfiles/")
                 command = "git init"
                 execute(command)
                 command = "git remote add origin "+repo_url
