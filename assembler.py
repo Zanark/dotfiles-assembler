@@ -113,7 +113,7 @@ def add_user():
     
     local_database(data)    
 
-    print("USER ADDED!!")
+    print("\nUSER ADDED!!\n")
 
 
 def show_users():
@@ -143,10 +143,10 @@ def push_to_GitHub():
     data = local_database()
     #print(data[0])
     
-    print("The regitred users are:")
+    print("\nThe regitred users are:\n")
     show_users()
 
-    ch = input("Do you want to add a new user?? [y/n] \t")
+    ch = input("\nDo you want to add a new user?? [y/n] \t")
     
     if ch == 'y':
         add_user()
@@ -187,7 +187,21 @@ def push_to_GitHub():
             print("Remote added successfully")
             
         else:
-            print(response.json())
+            result = json.loads(response.text)
+
+            if result['errors'][0]['message'] == "name already exists on this account":
+                branchName = input("\nEnter a name for the new branch\n\t")
+                
+                repo_url = "https://github.com/%s/dotfiles.git" % username
+
+                command = "cd dotfiles"
+                execute(command)
+                command = "git init"
+                execute(command)
+                command = "git remote add origin "+repo_url
+                execute(command)
+                command = "git checkout -b "+branchName 
+                execute(command)
     else:
         print("User not found, please add a User and run the program again")
         add_user()
