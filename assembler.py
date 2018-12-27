@@ -204,6 +204,13 @@ def push_to_GitHub():
                 execute(command)
                 command = "git checkout -b "+branchName 
                 execute(command)
+                command = "git add . " 
+                execute(command)
+                commit_msg = input("\nEnter a commit message\n\t")
+                command = "git commit -m \" "+commit_msg+" \"" 
+                execute(command)
+                command = "git push origin "+branchName 
+                execute(command)
     else:
         print("User not found, please add a User and run the program again")
         add_user()
