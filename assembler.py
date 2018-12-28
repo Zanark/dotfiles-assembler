@@ -18,7 +18,7 @@ def if_folders_exist():
     folders = os.popen("find -maxdepth 1").read().split("\n")
     for f in folders:
         f = f[2:]
-        print(f)
+        #print(f)
         if f in reqd_folders:
             exist_folders.append(f)
         elif f in reqd_files:
@@ -112,7 +112,7 @@ def add_user():
     if response.status_code==201:
         data[Username]=[response.json()['token'],response.json()['url']]
 
-    print(response.json())
+    #print(response.json())
     
     local_database(data)    
 
@@ -126,7 +126,7 @@ def show_users():
     users=[x for x in data]
     if len(users):
         for i in users:
-            print(i)
+            print( " -- " + str(next(iter(i))) + "\n")
     else:
         choice = input("No users in the database....Want to add a user? (y/n) \t")
         if choice == 'y':
@@ -148,6 +148,7 @@ def push_to_GitHub():
     
     print("\nThe regitred users are:\n")
     show_users()
+    print("\n\n")
 
     ch = input("\nDo you want to add a new user?? [y/n] \t")
     
@@ -220,7 +221,7 @@ def push_to_GitHub():
                 command = "git push origin "+branchName 
                 execute(command)
     else:
-        print("User not found, please add a User and run the program again")
+        print("\nUser not found, please add a User and run the program again\n\n")
         add_user()
 
 
