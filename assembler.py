@@ -193,6 +193,7 @@ def push_to_GitHub():
             commit_msg = input("\nEnter a commit message\n\t")
             command = "git commit -m \" "+commit_msg+" \"" 
             execute(command)
+            print("\n\nPushing to GitHub........\n\n")
             command = "git push origin mark1"
             execute(command)
             print("Remote added and Data pushed to remote successfully")
@@ -218,8 +219,10 @@ def push_to_GitHub():
                 commit_msg = input("\nEnter a commit message\n\t")
                 command = "git commit -m \" "+commit_msg+" \"" 
                 execute(command)
+                print("\n\nPushing to GitHub........\n\n")
                 command = "git push origin "+branchName 
                 execute(command)
+                print("Remote added and Data pushed to remote successfully")
     else:
         print("\nUser not found, please add a User and run the program again\n\n")
         add_user()
